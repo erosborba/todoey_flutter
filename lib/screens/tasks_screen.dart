@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
+import '../constants.dart';
 import 'add_task_screen.dart';
 import 'package:todoey_flutter/models/task_data.dart';
 import 'package:provider/provider.dart';
@@ -22,38 +23,39 @@ class TaskScreen extends StatelessWidget {
             ),
           );
         },
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: kPrimaryColor,
         child: Icon(Icons.add),
       ),
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
               child: Icon(
                 Icons.list,
                 size: 30.0,
-                color: Colors.lightBlue,
+                color: kPrimaryColor,
               ),
               backgroundColor: Colors.white,
               radius: 30.0,
             ),
             SizedBox(height: 10),
             Text(
-              'Todoey',
+              'Tarefas',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 50.0,
                   fontWeight: FontWeight.w700),
             ),
             Text(
-              '${Provider.of<TaskData>(context).taskCount} Tasks',
+              pluralize(Provider.of<TaskData>(context).taskCount).toString(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
               ),
             ),
+            SizedBox(height: 10),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -71,5 +73,16 @@ class TaskScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+pluralize(tarefas) {
+  if (tarefas > 1) {
+    return '$tarefas tarefas';
+  }
+  if (tarefas == 1) {
+    return '$tarefas tarefa';
+  } else {
+    return 'Nenhuma Tarefa';
   }
 }
